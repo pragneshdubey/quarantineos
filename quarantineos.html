@@ -1,0 +1,211 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>QuarantineOS – Facility Command Center</title>
+<style>:root{--bg:#f4f7fa;--card:#fff;--ink:#0b2545;--mut:#5b6b82;--line:#dde5ee;--teal:#0f766e;--blue:#1d4ed8;--amber:#b45309;--red:#b91c1c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b1220;--card:#121c2e;--ink:#e6edf7;--mut:#9fb0c7;--line:#243349;--teal:#2dd4bf;--blue:#60a5fa;--amber:#fbbf24;--red:#f87171}}
+*{box-sizing:border-box}body{margin:0;font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--ink)}
+.app{display:flex;min-height:100vh}aside{width:230px;background:var(--card);border-right:1px solid var(--line);padding:16px 10px;position:sticky;top:0;height:100vh;overflow:auto}
+.logo{font-weight:800;font-size:18px;padding:4px 10px 14px;display:flex;gap:8px;align-items:center}.logo b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:7px;background:var(--teal);color:#fff;font-size:14px}.logo span{color:var(--teal)}
+.nv{display:block;width:100%;text-align:left;background:none;border:0;color:var(--mut);padding:9px 10px;border-radius:8px;cursor:pointer;font:inherit}.nv:hover{background:var(--bg)}.nv.on{background:var(--teal);color:#fff}
+main{flex:1;min-width:0;padding:20px 24px}header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}h1{font-size:22px;margin:0}h3{margin:0 0 10px;font-size:15px}h3 small{font-weight:400;color:var(--mut);margin-left:6px}h4{margin:12px 0 6px}
+section,.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-bottom:14px}.card{margin:0;border-left:4px solid var(--blue)}.card.teal{border-left-color:var(--teal)}.card.warn{border-left-color:var(--amber)}.card.crit{border-left-color:var(--red)}
+.l{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.04em}.v{font-size:26px;font-weight:700}.s{color:var(--mut);font-size:12px}.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--mut);font-weight:600;font-size:12px}td,th{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}tr.clk{cursor:pointer}tr.clk:hover{background:var(--bg)}
+button,input,select{font:inherit;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--card);color:var(--ink)}button{background:var(--blue);color:#fff;border-color:transparent;cursor:pointer}button.ghost{background:none;color:var(--blue);border-color:var(--line)}button.teal{background:var(--teal)}button.danger{background:var(--red)}button.warnb{color:var(--amber);border-color:var(--amber)}button:disabled{opacity:.4;cursor:not-allowed}:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.frm{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.act{white-space:nowrap}.act input{width:80px}.mut{color:var(--mut)}.red{color:var(--red)}
+.tag{display:inline-block;padding:2px 8px;border-radius:99px;font-size:12px;font-weight:600}.tag.b{background:#dbeafe;color:#1e40af}.tag.g{background:#ccfbf1;color:#115e59}.tag.a{background:#fef3c7;color:#92400e}.tag.r{background:#fee2e2;color:#991b1b}
+.dots i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--line);margin-right:3px}.dots i.on{background:var(--teal)}.dots small{color:var(--mut)}
+.beds{display:grid;grid-template-columns:repeat(auto-fill,minmax(22px,1fr));gap:5px}.bed{height:22px;border-radius:5px;background:#94a3b8}.bed.occ{background:var(--blue)}.bed.teal{background:var(--teal)}.bed.warn{background:var(--amber)}.bed.free{background:transparent;border:2px dashed var(--line)}
+.row{display:flex;gap:10px;align-items:center;margin:8px 0}.row span{width:110px}.bar{flex:1;height:10px;background:var(--line);border-radius:9px;overflow:hidden}.bar div{height:100%;background:var(--teal)}
+.info,.warnbox,.okbox,.critbox,.note{padding:10px 12px;border-radius:10px;margin:0 0 14px;border:1px solid var(--line)}.info{background:#eff6ff;color:#1e3a8a}.warnbox{background:#fffbeb;color:#92400e;border-color:#fcd34d}.critbox{background:#fef2f2;color:#991b1b;border-color:#fca5a5;font-weight:600}.okbox{background:#f0fdfa;color:#115e59}.note{background:var(--card);color:var(--mut);font-size:12px}
+.tl{padding-left:18px;max-height:200px;overflow:auto}.chart{width:100%;max-width:560px}.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:16px;padding:10px 16px;border-radius:10px;color:#fff;opacity:0;transition:opacity .25s;max-width:340px;z-index:9}.toast.ok{background:var(--teal)}.toast.err{background:var(--red)}
+.roleb{display:flex;gap:8px;align-items:center}@media(max-width:800px){.app{flex-direction:column}aside{width:100%;height:auto;position:static;display:flex;overflow-x:auto;padding:8px}.logo{padding:4px 8px}#nav{display:flex}.nv{white-space:nowrap;width:auto}main{padding:14px}}</style></head>
+<body><div class="app"><aside><div class="logo"><b>Q</b>Quarantine<span>OS</span></div><nav id="nav"></nav></aside><main><header><h1 id="title"></h1><div class="roleb"><label for="role">Demo role:</label><select id="role"></select></div></header><div id="main"></div></main></div><div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+const add=(s,o)=>{const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+o);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const todayStr=()=>add(new Date().toLocaleDateString('en-CA'),0);
+const PERM={nurse:['temp'],doctor:['visit','recommend'],admin:['admit','discharge','outcome','settings'],manager:['settings']};
+const can=(r,a)=>(PERM[r]||[]).includes(a);
+const no=a=>({ok:false,error:'Role not permitted to perform: '+a});
+const bad=e=>({ok:false,error:e});
+function log(s,role,action,pid,reason){s.audit.unshift({ts:new Date().toISOString(),role,action,pid:pid||'',reason:reason||''})}
+const pt=(s,id)=>s.patients.find(p=>p.id===id);
+const active=s=>s.patients.filter(p=>p.status==='admitted');
+const tempOn=(s,pid,d)=>s.temps.find(t=>t.pid===pid&&t.date===d);
+const todayTemp=(s,pid)=>tempOn(s,pid,s.today);
+const visitToday=(s,pid)=>s.visits.find(v=>v.pid===pid&&v.date===s.today);
+const lastTemp=(s,pid)=>s.temps.filter(t=>t.pid===pid).sort((a,b)=>b.date.localeCompare(a.date))[0];
+function streak(s,pid){let n=0,o=todayTemp(s,pid)?0:-1;for(;;o--){const r=tempOn(s,pid,add(s.today,o));if(!r||r.value>=s.settings.threshold)break;n++}return n}
+const eligible=(s,pid)=>streak(s,pid)>=3;
+const recActive=(s,pid)=>s.recs.some(r=>r.pid===pid&&r.active);
+const clearance=(s,pid)=>recActive(s,pid)?(eligible(s,pid)?'cleared':'withdrawn'):'none';
+function visitBlock(s,pid){return todayTemp(s,pid)?null:"Today's temperature has not been recorded by a nurse"}
+function recordTemp(s,role,pid,value,note,reason){
+ if(!can(role,'temp'))return no('record temperature');
+ const p=pt(s,pid);if(!p||p.status!=='admitted')return bad('Patient is not currently admitted');
+ const v=Number(value);if(value===''||value==null||!isFinite(v)||v<34||v>43)return bad('Enter a valid temperature between 34.0 and 43.0 °C');
+ const ex=todayTemp(s,pid);
+ if(ex){if(!reason||reason.trim().length<5)return bad('Already measured today ('+ex.value+' °C). A correction needs a reason (min 5 chars).');
+  ex.corrections=(ex.corrections||[]).concat({from:ex.value,to:v,reason});ex.value=v;log(s,role,'Temperature corrected',pid,ex.corrections.slice(-1)[0].from+'→'+v+' °C: '+reason);return{ok:true,corrected:true}}
+ s.temps.push({pid,date:s.today,value:v,ts:new Date().toISOString(),by:role,note:note||''});log(s,role,'Temperature recorded',pid,v+' °C');return{ok:true}}
+function completeVisit(s,role,pid,notes,override){
+ if(!can(role,'visit'))return no('complete doctor visit');
+ const p=pt(s,pid);if(!p||p.status!=='admitted')return bad('Patient is not currently admitted');
+ if(visitToday(s,pid))return bad('Visit already completed today');
+ if(!notes||notes.trim().length<3)return bad('Clinical notes are required');
+ const b=visitBlock(s,pid);let ov='';
+ if(b){if(!override||override.trim().length<10)return bad('Blocked: '+b+'. Emergency override needs a documented reason (min 10 chars).');ov=override;}
+ s.visits.push({pid,date:s.today,ts:new Date().toISOString(),by:role,notes,override:ov});
+ log(s,role,ov?'Visit completed (EMERGENCY OVERRIDE)':'Visit completed',pid,ov||notes);return{ok:true}}
+function recommend(s,role,pid,note){
+ if(!can(role,'recommend'))return no('recommend discharge');
+ const p=pt(s,pid);if(!p||p.status!=='admitted')return bad('Patient is not currently admitted');
+ if(!eligible(s,pid))return bad('Not eligible: needs 3 consecutive complete fever-free days (current streak '+streak(s,pid)+')');
+ if(recActive(s,pid))return bad('Clinical clearance already recorded');
+ s.recs.push({pid,ts:new Date().toISOString(),by:role,note:note||'',active:true});log(s,role,'Discharge recommended',pid,note);return{ok:true}}
+function discharge(s,role,pid,note){
+ if(!can(role,'discharge'))return no('confirm discharge');
+ const p=pt(s,pid);if(!p||p.status!=='admitted')return bad('Patient is not currently admitted');
+ if(!eligible(s,pid))return bad('Blocked: fever-free criterion not met');
+ if(clearance(s,pid)!=='cleared')return bad('Blocked: no valid clinical clearance from a doctor');
+ p.status='discharged';p.dischargeDate=s.today;p.bed=null;s.recs.filter(r=>r.pid===pid).forEach(r=>r.active=false);
+ s.outcomes.push({pid,type:'cured',date:s.today});log(s,role,'Patient discharged (cured)',pid,note);return{ok:true}}
+function recordDeath(s,role,pid,reason){
+ if(!can(role,'outcome'))return no('record outcome');
+ const p=pt(s,pid);if(!p||p.status!=='admitted')return bad('Patient is not currently admitted');
+ if(!reason||reason.trim().length<5)return bad('A documented reason is required');
+ p.status='deceased';p.bed=null;s.outcomes.push({pid,type:'deceased',date:s.today});log(s,role,'Outcome recorded: deceased',pid,reason);return{ok:true}}
+function admit(s,role,d){
+ if(!can(role,'admit'))return no('admit patients');
+ if(!d.name||d.name.trim().length<2)return bad('Patient name is required');
+ const age=Number(d.age);if(!(age>=0&&age<=120))return bad('Enter a valid age (0–120)');
+ if(active(s).length>=s.settings.capacity)return bad('Facility is at full capacity ('+s.settings.capacity+'). Discharge a patient first.');
+ let id=(d.id||'').trim();if(!id){let n=s.patients.length+1;do{id='P-'+String(n++).padStart(3,'0')}while(pt(s,id))}
+ if(pt(s,id))return bad('Duplicate patient ID '+id);
+ const used=new Set(active(s).map(p=>p.bed));let bed=1;while(used.has(bed))bed++;
+ s.patients.push({id,name:d.name.trim(),age,status:'admitted',admitted:s.today,bed,ward:'Ward '+String.fromCharCode(65+Math.floor((bed-1)/20))});
+ log(s,role,'Patient admitted',id,'Bed '+bed);return{ok:true,id}}
+function setCapacity(s,role,n){
+ if(!can(role,'settings'))return no('change settings');n=Number(n);
+ if(!Number.isInteger(n)||n<1)return bad('Capacity must be a whole number ≥ 1');
+ if(n<active(s).length)return bad('Capacity cannot be below current occupancy ('+active(s).length+'). Discharge patients first.');
+ log(s,role,'Capacity changed',null,s.settings.capacity+'→'+n);s.settings.capacity=n;return{ok:true}}
+function setThreshold(s,role,n){
+ if(!can(role,'settings'))return no('change settings');n=Number(n);
+ if(!(n>=36&&n<=41))return bad('Threshold must be 36.0–41.0 °C');
+ log(s,role,'Fever threshold changed',null,s.settings.threshold+'→'+n+' °C (demo setting; needs clinical confirmation)');s.settings.threshold=n;return{ok:true}}
+function metrics(s){
+ const a=active(s),done=a.filter(p=>todayTemp(s,p.id)),vis=a.filter(p=>visitToday(s,p.id));
+ const cured=s.outcomes.filter(o=>o.type==='cured').length,dead=s.outcomes.filter(o=>o.type==='deceased').length,res=cured+dead;
+ return{occupied:a.length,available:s.settings.capacity-a.length,tempsDone:done.length,tempsPending:a.length-done.length,visitsDone:vis.length,
+  awaitingVisit:a.filter(p=>todayTemp(s,p.id)&&!visitToday(s,p.id)).length,blockedVisits:a.filter(p=>!todayTemp(s,p.id)&&!visitToday(s,p.id)).length,
+  eligible:a.filter(p=>eligible(s,p.id)).length,cured,dead,resolved:res,mortality:res?dead/res:null,success:res?cured/res:null}}
+function seed(){
+ let x=7;const rnd=()=>(x=(x*9301+49297)%233280)/233280;const t=todayStr();
+ const s={today:t,settings:{threshold:38.0,capacity:74,role:'nurse'},patients:[],temps:[],visits:[],recs:[],outcomes:[],audit:[]};
+ const T=(id,h,td)=>{Object.entries(h).forEach(([o,v])=>s.temps.push({pid:id,date:add(t,+o),value:v,ts:add(t,+o)+'T09:00:00',by:'nurse',note:''}));if(td!=null)s.temps.push({pid:id,date:t,value:td,ts:new Date().toISOString(),by:'nurse',note:''})};
+ const P=(id,name,age,adm)=>s.patients.push({id,name,age,status:'admitted',admitted:add(t,adm),bed:s.patients.filter(p=>p.status==='admitted').length+1,ward:''});
+ const N=[['Asha Verma',34,0],['Rohan Mehta',52,-3],['Neha Iyer',41,-4],['Imran Khan',63,-5],['Kavya Rao',29,-5],['Sanjay Patil',47,-6],['Meera Nair',38,-6],['Dev Malhotra',55,-7],['Lakshmi Pillai',60,-6]];
+ N.forEach((n,i)=>P('P-'+String(i+1).padStart(3,'0'),...n));
+ T('P-002',{'-1':38.2,'-2':38.6});T('P-003',{'-1':38.4,'-2':38.7},36.9);T('P-004',{'-1':38.9,'-2':38.6},39.1);
+ T('P-005',{'-1':36.8,'-2':38.5,'-3':38.8});T('P-006',{'-1':36.7,'-2':36.9,'-3':38.6});T('P-007',{'-1':36.6,'-2':36.8,'-3':37.0,'-4':38.7});
+ T('P-008',{'-1':36.7,'-2':36.8,'-3':36.9,'-4':38.9});T('P-009',{'-4':38.9,'-3':38.5});
+ s.recs.push({pid:'P-008',ts:t+'T08:00:00',by:'doctor',note:'Clinically ready (demo)',active:true});
+ s.visits.push({pid:'P-003',date:add(t,-1),ts:'',by:'doctor',notes:'Prior visit',override:''});
+ const H={0:[38.9,39,38.7,38.5],1:[36.8,38.4,38.9,39],2:[36.9,37,38.5,38.8],3:[36.7,36.9,37,38.6],4:[38.9,39,38.7,38.5]};
+ for(let i=0;i<65;i++){const id='P-'+String(i+10).padStart(3,'0');P(id,'Demo Patient '+(i+10),20+Math.floor(rnd()*50),-5);const k=i%5;
+  const h={};H[k].forEach((v,j)=>h[-(j+1)]=v);const rec=k!==4&&i%3!==0;T(id,h,rec?(k===0?38.4:36.8):null);
+  if(rec&&i%2===0)s.visits.push({pid:id,date:t,ts:new Date().toISOString(),by:'doctor',notes:'Routine (demo)',override:''});
+  if(eligible(s,id)&&i%2===0&&visitToday(s,id))s.recs.push({pid:id,ts:new Date().toISOString(),by:'doctor',note:'Demo',active:true})}
+ s.patients.forEach(p=>{p.ward='Ward '+String.fromCharCode(65+Math.floor((p.bed-1)/20))});
+ for(let i=0;i<20;i++){const dead=i%5===2,id='H-'+String(i+1).padStart(3,'0'),d=add(t,-29+i*1.4|0);
+  s.patients.push({id,name:'Archive '+(i+1)+' (demo)',age:30+i,status:dead?'deceased':'discharged',admitted:add(t,-35+i),bed:null,ward:'',dischargeDate:d});s.outcomes.push({pid:id,type:dead?'deceased':'cured',date:d})}
+ s.audit.push({ts:new Date().toISOString(),role:'system',action:'Demo data loaded',pid:'',reason:'Fictional records only'});return s}
+if(typeof module!=='undefined')module.exports={add,seed,recordTemp,completeVisit,recommend,discharge,recordDeath,admit,setCapacity,setThreshold,metrics,streak,eligible,clearance,can,pt,active,todayTemp,visitToday,lastTemp,visitBlock,todayStr};
+const KEY='quarantineos-v1';let S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!S||S.today!==todayStr()){S=seed()}
+const ui={view:'dash',q:'',fs:'all',sel:null,tf:'all',vf:'all',pg:0};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const role=()=>S.settings.role,RN={nurse:'Nurse',doctor:'Doctor',admin:'Administrator',manager:'Facility Manager'};
+const NAV=[['dash','Operations Dashboard'],['reg','Patient Registry'],['temp','Temperature Rounds'],['doc','Doctor Rounds'],['dis','Discharge Management'],['out','Outcomes & Quality'],['log','Activity & Audit Log'],['set','Settings & Demo Guide']];
+const pct=x=>x==null?'—':(x*100).toFixed(1)+'%';
+function toast(m,ok){const t=$('toast');t.textContent=m;t.className='toast '+(ok?'ok':'err');t.style.opacity=1;clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.opacity=0,3800)}
+function run(r,okMsg){if(r.ok){save();toast(okMsg||'Done',true)}else toast(r.error,false);render();return r}
+const dots=id=>{const n=Math.min(streak(S,id),3);return '<span class="dots" title="'+streak(S,id)+' consecutive fever-free day(s)">'+[0,1,2].map(i=>'<i class="'+(i<n?'on':'')+'"></i>').join('')+'<small>'+streak(S,id)+'/3</small></span>'};
+const tag=(t,c)=>'<span class="tag '+c+'">'+t+'</span>';
+const fev=v=>v>=S.settings.threshold;
+const tv=r=>r?'<b class="'+(fev(r.value)?'red':'')+'">'+r.value.toFixed(1)+' °C</b>':'<span class="mut">—</span>';
+function actions(){const a=[];active(S).forEach(p=>{const id=p.id;
+ if(clearance(S,id)==='cleared')a.push([1,id,p.name,'Confirm discharge (clinically cleared) – frees bed','dis']);
+ else if(eligible(S,id)&&!recActive(S,id)&&todayTemp(S,id))a.push([2,id,p.name,'Doctor: record discharge recommendation','doc']);
+ else if(!todayTemp(S,id))a.push([4,id,p.name,'Nurse: record temperature – also blocks doctor visit','temp']);
+ else if(!visitToday(S,id))a.push([3,id,p.name,'Doctor: complete visit (temperature ready)','doc'])});return a.sort((a,b)=>a[0]-b[0])}
+function dash(){const m=metrics(S),a=actions();const over=new Date().getHours()>=12?m.tempsPending:0;
+ const c=(l,v,s,k)=>'<div class="card '+(k||'')+'"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="s">'+s+'</div></div>';
+ const beds=S.patients.filter(p=>p.status==='admitted').sort((x,y)=>x.bed-y.bed);const bm={};beds.forEach(p=>bm[p.bed]=p);
+ let g='';for(let i=1;i<=S.settings.capacity;i++){const p=bm[i];g+=p?'<i class="bed '+(clearance(S,p.id)==='cleared'?'teal':fev(lastTemp(S,p.id)?.value??0)?'warn':'occ')+'" title="Bed '+i+': '+esc(p.name)+'"></i>':'<i class="bed free" title="Bed '+i+' free"></i>'}
+ const bar=(l,d,t)=>'<div class="row"><span>'+l+'</span><div class="bar"><div style="width:'+(t?d/t*100:0)+'%"></div></div><b>'+d+'/'+t+'</b></div>';
+ const bn=m.tempsPending>m.awaitingVisit?'Missing temperatures ('+m.tempsPending+') are the main bottleneck – they block '+m.blockedVisits+' doctor visits.':'Doctor visits ('+m.awaitingVisit+' waiting) are the main bottleneck.';
+ return '<div class="note">Sample-data mode: all records are fictional and stored only in this browser.</div><div class="grid">'+
+ c('Occupancy',m.occupied+' / '+S.settings.capacity,m.available+' beds available',m.available===0?'warn':'')+c('Temperature rounds',m.tempsDone+'/'+m.occupied,m.tempsPending+' pending today')+
+ c('Doctor visits',m.visitsDone+'/'+m.occupied,m.awaitingVisit+' ready & waiting; '+m.blockedVisits+' blocked')+c('Discharge eligible',m.eligible,'3 fever-free days','teal')+
+ c('Overdue',over,'temps pending after 12:00',over?'warn':'')+c('Mortality',pct(m.mortality),'benchmark ≤ 15%',m.mortality>.15?'crit':'')+'</div>'+
+ '<div class="two"><section><h3>Bed map <small>teal = cleared · amber = latest temp ≥ threshold</small></h3><div class="beds">'+g+'</div></section>'+
+ '<section><h3>Today’s workflow</h3>'+bar('Temperatures',m.tempsDone,m.occupied)+bar('Doctor visits',m.visitsDone,m.occupied)+'<p class="info">ℹ '+bn+'</p></section></div>'+
+ '<section><h3>Next best actions <small>ordered by what frees beds / unblocks flow</small></h3>'+(a.length?'<table>'+a.slice(0,8).map(x=>'<tr><td>'+esc(x[2])+' <span class="mut">'+x[1]+'</span></td><td>'+x[3]+'</td><td><button class="ghost" data-a="go" data-v="'+x[4]+'">Open</button></td></tr>').join('')+'</table><p class="mut">'+a.length+' open actions in total.</p>':'<p class="mut">All caught up 🎉</p>')+'</section>'}
+function status(p){return p.status==='admitted'?tag('Admitted','b'):p.status==='discharged'?tag('Discharged','g'):tag('Deceased','r')}
+function reg(){let L=S.patients.filter(p=>(p.id+p.name).toLowerCase().includes(ui.q.toLowerCase()));
+ if(ui.fs==='eligible')L=L.filter(p=>p.status==='admitted'&&eligible(S,p.id));else if(ui.fs!=='all')L=L.filter(p=>p.status===ui.fs);
+ const pages=Math.max(1,Math.ceil(L.length/15));ui.pg=Math.min(ui.pg,pages-1);const pc=L.slice(ui.pg*15,ui.pg*15+15);
+ const rows=pc.map(p=>'<tr class="clk" data-a="sel" data-id="'+p.id+'"><td>'+p.id+'</td><td>'+esc(p.name)+'</td><td>'+(p.bed?p.ward+' · Bed '+p.bed:'—')+'</td><td>'+status(p)+'</td><td>'+(p.status==='admitted'?dots(p.id):'')+'</td></tr>').join('')||'<tr><td colspan=5 class="mut">No patients match. Clear the search or filters.</td></tr>';
+ return '<section><h3>Admit patient</h3><div class="frm"><input id="an" placeholder="Full name"><input id="aa" type="number" placeholder="Age" min=0 max=120><input id="ai" placeholder="Patient ID (optional)"><button data-a="admit" '+(can(role(),'admit')?'':'disabled title="Administrator only"')+'>Admit</button></div>'+(metrics(S).available<=0?'<p class="warnbox">Facility full – discharge a patient to free a bed.</p>':'')+'</section>'+
+ '<section><div class="frm"><input id="q" placeholder="Search ID or name" value="'+esc(ui.q)+'"><select id="fs">'+[['all','All'],['admitted','Admitted'],['eligible','Discharge-eligible'],['discharged','Discharged'],['deceased','Deceased']].map(o=>'<option value="'+o[0]+'" '+(ui.fs===o[0]?'selected':'')+'>'+o[1]+'</option>').join('')+'</select></div>'+
+ '<table><tr><th>ID</th><th>Name</th><th>Location</th><th>Status</th><th>Fever-free</th></tr>'+rows+'</table><div class="pager"><button class="ghost" data-a="pg" data-d="-1">‹</button> Page '+(ui.pg+1)+'/'+pages+' ('+L.length+') <button class="ghost" data-a="pg" data-d="1">›</button></div></section>'+(ui.sel?detail(ui.sel):'')}
+function detail(id){const p=pt(S,id);if(!p)return '';const T=S.temps.filter(t=>t.pid===id).sort((a,b)=>b.date.localeCompare(a.date)),V=S.visits.filter(v=>v.pid===id).sort((a,b)=>b.date.localeCompare(a.date));
+ const ev=[['Admitted',p.admitted],...T.map(t=>['Temp '+t.value+' °C'+(t.corrections?' (corrected)':''),t.date]),...V.map(v=>['Doctor visit'+(v.override?' (override)':''),v.date]),...S.recs.filter(r=>r.pid===id).map(r=>['Clinical clearance'+(r.active?'':' (closed)'),r.ts.slice(0,10)]),...(p.dischargeDate?[[p.status==='deceased'?'Outcome: deceased':'Discharged',p.dischargeDate]]:[])].sort((a,b)=>a[1].localeCompare(b[1]));
+ return '<section class="det"><h3>'+esc(p.name)+' · '+p.id+' '+status(p)+'</h3><p>Age '+p.age+' · Admitted '+p.admitted+(p.bed?' · '+p.ward+', Bed '+p.bed:'')+(p.dischargeDate?' · Closed '+p.dischargeDate:'')+'</p>'+
+ '<h4>Patient-flow timeline</h4><ol class="tl">'+ev.map(e=>'<li><b>'+e[1]+'</b> '+esc(e[0])+'</li>').join('')+'</ol><div class="two"><div><h4>Temperatures</h4><table>'+T.map(t=>'<tr><td>'+t.date+'</td><td>'+tv(t)+'</td><td class="mut">'+esc(t.note)+'</td></tr>').join('')+'</table></div><div><h4>Doctor visits</h4><table>'+(V.map(v=>'<tr><td>'+v.date+'</td><td>'+esc(v.notes)+'</td></tr>').join('')||'<tr><td class="mut">None</td></tr>')+'</table></div></div></section>'}
+function temp(){const A=active(S).filter(p=>ui.tf==='all'||(ui.tf==='pending')===!todayTemp(S,p.id));const m=metrics(S);
+ const rows=A.map(p=>{const t=todayTemp(S,p.id),l=S.temps.filter(x=>x.pid===p.id&&x.date!==S.today).sort((a,b)=>b.date.localeCompare(a.date))[0];
+ return '<tr><td>'+esc(p.name)+'<br><small class="mut">'+p.id+' · '+p.ward+' · Bed '+p.bed+'</small></td><td>'+tv(l)+'</td><td>'+(t?tag('Recorded '+t.value.toFixed(1)+' °C'+(fev(t.value)?' · FEVER':''),fev(t.value)?'r':'g')+' <small class="mut">'+new Date(t.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})+'</small>':tag('Pending','a'))+'</td><td class="act"><input id="t-'+p.id+'" type="number" step="0.1" placeholder="°C" '+(t?'':'')+'><button data-a="rt" data-id="'+p.id+'" '+(can(role(),'temp')?'':'disabled title="Nurse only"')+'>'+(t?'Correct':'Record')+'</button></td></tr>'}).join('')||'<tr><td class="mut">No patients in this view.</td></tr>';
+ return (m.tempsPending?'<p class="warnbox">⚠ '+m.tempsPending+' patient(s) have no temperature today. Doctors cannot complete routine visits for them.</p>':'<p class="okbox">All temperatures recorded today.</p>')+
+ '<section><div class="frm"><select id="tf">'+[['all','All'],['pending','Pending'],['done','Completed']].map(o=>'<option value="'+o[0]+'" '+(ui.tf===o[0]?'selected':'')+'>'+o[1]+'</option>').join('')+'</select><span class="mut">Celsius · fever threshold ≥ '+S.settings.threshold.toFixed(1)+' °C (demo setting, needs clinical confirmation) · one reading per patient per day; corrections need a reason</span></div><table><tr><th>Patient</th><th>Previous</th><th>Today</th><th>Record (°C)</th></tr>'+rows+'</table></section>'}
+function doc(){const A=active(S).filter(p=>{const v=!!visitToday(S,p.id),b=!todayTemp(S,p.id);return ui.vf==='all'||(ui.vf==='done'&&v)||(ui.vf==='blocked'&&!v&&b)||(ui.vf==='pending'&&!v&&!b)});
+ const rows=A.map(p=>{const v=visitToday(S,p.id),b=visitBlock(S,p.id),l=lastTemp(S,p.id),cl=clearance(S,p.id),ok=can(role(),'visit');
+ return '<tr><td>'+esc(p.name)+'<br><small class="mut">'+p.id+'</small> <a href="#" data-a="sel2" data-id="'+p.id+'">history</a></td><td>'+tv(l)+'<br><small class="mut">'+(l?l.date+' '+new Date(l.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'')+'</small></td><td>'+dots(p.id)+'</td><td>'+(v?tag('Visit done','g'):b?tag('Blocked','r')+'<br><small>Why blocked? '+b+'.</small>':tag('Ready','b'))+'</td><td class="act">'+
+ (v?'':'<button data-a="cv" data-id="'+p.id+'" '+(ok&&!b?'':'disabled')+'>Complete visit</button>'+(b&&ok?' <button class="ghost warnb" data-a="cvo" data-id="'+p.id+'">Emergency override</button>':''))+
+ (eligible(S,p.id)&&cl!=='cleared'?' <button class="teal" data-a="rec" data-id="'+p.id+'" '+(can(role(),'recommend')?'':'disabled')+'>Recommend discharge</button>':cl==='cleared'?tag('Cleared','g'):'')+'</td></tr>'}).join('')||'<tr><td class="mut">No patients in this view.</td></tr>';
+ return '<section><div class="frm"><select id="vf">'+[['all','All'],['pending','Pending (ready)'],['blocked','Blocked'],['done','Completed']].map(o=>'<option value="'+o[0]+'" '+(ui.vf===o[0]?'selected':'')+'>'+o[1]+'</option>').join('')+'</select><span class="mut">Doctor-only actions. The app shows data; clinical decisions stay with the doctor.</span></div><table><tr><th>Patient</th><th>Latest temp</th><th>Fever-free</th><th>Visit</th><th>Actions</th></tr>'+rows+'</table></section>'+(ui.sel?detail(ui.sel):'')}
+function dis(){const A=active(S).filter(p=>eligible(S,p.id)||recActive(S,p.id));
+ const rows=A.map(p=>{const cl=clearance(S,p.id);return '<tr><td>'+esc(p.name)+'<br><small class="mut">'+p.id+' · Bed '+p.bed+'</small></td><td>'+dots(p.id)+'</td><td>'+(cl==='cleared'?tag('Clinically cleared','g'):cl==='withdrawn'?tag('Clearance withdrawn','r'):tag('Awaiting doctor','a'))+'</td><td>'+(cl==='cleared'?'<button data-a="dc" data-id="'+p.id+'" '+(can(role(),'discharge')?'':'disabled title="Administrator only"')+'>Confirm discharge</button>':'<small>Why blocked? '+(cl==='none'?'No doctor clearance yet':'Fever-free criterion no longer met')+'</small>')+'</td></tr>'}).join('')||'<tr><td class="mut">No patients are currently eligible.</td></tr>';
+ return '<p class="info">ℹ Discharge needs both: 3 consecutive complete fever-free days AND doctor clearance. Nothing is discharged automatically.</p><section><table><tr><th>Patient</th><th>Streak</th><th>Clinical clearance</th><th>Administrative action</th></tr>'+rows+'</table></section>'+
+ '<section><h3>Record death outcome (Administrator)</h3><div class="frm"><select id="dp">'+active(S).map(p=>'<option value="'+p.id+'">'+esc(p.name)+' · '+p.id+'</option>').join('')+'</select><button class="danger" data-a="dead" '+(can(role(),'outcome')?'':'disabled title="Administrator only"')+'>Record death…</button></div></section>'}
+function out(){const m=metrics(S);const O=S.outcomes.slice().sort((a,b)=>a.date.localeCompare(b.date));let c=0,d=0;const pts=O.map((o,i)=>{o.type==='cured'?c++:d++;return d/(c+d)});
+ const w=520,h=140,line=pts.map((v,i)=>(10+i*(w-20)/Math.max(1,pts.length-1))+','+(h-10-Math.min(v,.5)/.5*(h-20))).join(' ');const by=h-10-.15/.5*(h-20);
+ const card=(l,v,s,k)=>'<div class="card '+k+'"><div class="l">'+l+'</div><div class="v">'+v+'</div><div class="s">'+s+'</div></div>';
+ return (m.resolved===0?'<p class="info">Insufficient outcome data.</p>':m.mortality>.15?'<p class="critbox">⛔ Mortality '+pct(m.mortality)+' exceeds the 15% benchmark. Review treatment quality.</p>':'<p class="okbox">Mortality within the 15% benchmark.</p>')+
+ '<div class="grid">'+card('Resolved outcomes',m.resolved,'cured + deceased','')+card('Cured / discharged',m.cured,'','teal')+card('Deaths',m.dead,'',m.dead?'warn':'')+card('Mortality',pct(m.mortality),'benchmark ≤ 15%',m.mortality>.15?'crit':'')+card('Success rate',pct(m.success),'benchmark ≥ 85%',m.success!=null&&m.success<.85?'crit':'teal')+'</div>'+
+ '<section><h3>Cumulative mortality trend <small>dashed = 15% benchmark</small></h3>'+(pts.length?'<svg viewBox="0 0 '+w+' '+h+'" class="chart"><line x1=10 x2='+(w-10)+' y1='+by+' y2='+by+' stroke="#d97706" stroke-dasharray="4"/><polyline fill="none" stroke="#0f766e" stroke-width=2 points="'+line+'"/></svg>':'<p class="mut">No data yet.</p>')+
+ '<p class="mut">Assumption: resolved = cured + deceased; mortality = deceased ÷ resolved; success = cured ÷ resolved. Active patients are excluded. Sample data; descriptive only – no claim of statistical significance or causal effect.</p></section>'}
+function logv(){return '<section><table><tr><th>Time</th><th>Role</th><th>Action</th><th>Patient</th><th>Reason / detail</th></tr>'+S.audit.slice(0,150).map(a=>'<tr><td>'+new Date(a.ts).toLocaleString()+'</td><td>'+a.role+'</td><td>'+esc(a.action)+'</td><td>'+a.pid+'</td><td>'+esc(a.reason)+'</td></tr>').join('')+'</table></section>'}
+function set(){const ok=can(role(),'settings');return '<p class="warnbox">Demo role switching is NOT authentication. Data lives in this browser’s localStorage only – not secure, not shared, not production persistence. All patients are fictional.</p><section><h3>Settings</h3><div class="frm"><label>Fever threshold °C <input id="st" type="number" step="0.1" value="'+S.settings.threshold+'"></label><button data-a="sth" '+(ok?'':'disabled')+'>Save threshold</button><label>Capacity <input id="sc" type="number" value="'+S.settings.capacity+'"></label><button data-a="scp" '+(ok?'':'disabled')+'>Save capacity</button></div><p class="mut">Threshold is a demonstration value requiring clinical confirmation. Settings: Administrator / Facility Manager. Eligibility recalculates instantly.</p><button class="danger" data-a="reset">Reset demo data</button></section>'+
+ '<section><h3>Demo guide</h3><ol><li>Switch to <b>Nurse</b> → Temperature Rounds → record a temp for a pending patient (e.g. P-002).</li><li>Switch to <b>Doctor</b> → Doctor Rounds → see the temp, complete the visit. Try P-009 first to see “Why blocked?”.</li><li>P-007 has 3 fever-free days: Doctor → Recommend discharge. P-006 reaches eligibility if you record 36.8 °C as Nurse.</li><li>Switch to <b>Administrator</b> → Discharge Management → confirm discharge (P-008 / P-007). Occupancy drops; check Audit Log.</li><li>Admin → Patient Registry → admit a new patient into the freed bed.</li><li>Open Outcomes & Quality: 20 sample outcomes (4 deaths = 20%) trigger the 15% warning.</li></ol></section>'}
+const V={dash,reg,temp,doc,dis,out,log:logv,set};
+function render(){$('nav').innerHTML=NAV.map(n=>'<button class="nv '+(ui.view===n[0]?'on':'')+'" data-a="go" data-v="'+n[0]+'">'+n[1]+'</button>').join('');
+ $('title').textContent=NAV.find(n=>n[0]===ui.view)[1];$('role').innerHTML=Object.entries(RN).map(r=>'<option value="'+r[0]+'" '+(role()===r[0]?'selected':'')+'>'+r[1]+'</option>').join('');
+ const f=document.activeElement&&document.activeElement.id;$('main').innerHTML=V[ui.view]();if(f==='q'){const e=$('q');e.focus();e.setSelectionRange(e.value.length,e.value.length)}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b||b.disabled)return;const a=b.dataset.a,id=b.dataset.id;if(a==='sel2')e.preventDefault();
+ const A={go:()=>{ui.view=b.dataset.v;ui.sel=null;render();scrollTo(0,0)},sel:()=>{ui.sel=id;render()},sel2:()=>{ui.sel=id;render()},pg:()=>{ui.pg=Math.max(0,ui.pg+ +b.dataset.d);render()},
+ admit:()=>{const r=run(admit(S,role(),{name:$('an').value,age:$('aa').value,id:$('ai').value}),'Patient admitted');},
+ rt:()=>{const el=$('t-'+id);let reason;if(todayTemp(S,id)){reason=prompt('Already measured today. Reason for correction (audited):');if(reason===null)return}run(recordTemp(S,role(),id,el.value,'',reason),'Temperature saved')},
+ cv:()=>{const n=prompt('Clinical notes for today’s visit:');if(n!==null)run(completeVisit(S,role(),id,n),'Visit completed')},
+ cvo:()=>{const o=prompt('EMERGENCY OVERRIDE – documented reason (audited):');if(o===null)return;const n=prompt('Clinical notes:');if(n!==null)run(completeVisit(S,role(),id,n,o),'Visit completed with audited override')},
+ rec:()=>{if(confirm('Record clinical clearance for discharge? Admin staff will then coordinate.'))run(recommend(S,role(),id,'Clinically ready'),'Clearance recorded')},
+ dc:()=>{if(confirm('Confirm actual discharge? This frees the bed.'))run(discharge(S,role(),id,'Administrative discharge'),'Discharged – bed freed')},
+ dead:()=>{const id2=$('dp').value;const r=prompt('Documented reason for death outcome:');if(r!==null&&confirm('Record death for '+id2+'? This is permanent.'))run(recordDeath(S,role(),id2,r),'Outcome recorded')},
+ sth:()=>run(setThreshold(S,role(),$('st').value),'Threshold saved'),scp:()=>run(setCapacity(S,role(),$('sc').value),'Capacity saved'),
+ reset:()=>{if(confirm('Reset all demo data?')){const r=S.settings.role;S=seed();S.settings.role=r;save();toast('Demo data reset',true);render()}}};A[a]&&A[a]()});
+document.addEventListener('input',e=>{if(e.target.id==='q'){ui.q=e.target.value;ui.pg=0;render()}});
+document.addEventListener('change',e=>{const i=e.target.id;if(i==='fs'){ui.fs=e.target.value;ui.pg=0;render()}else if(i==='tf'){ui.tf=e.target.value;render()}else if(i==='vf'){ui.vf=e.target.value;render()}else if(i==='role'){S.settings.role=e.target.value;save();render()}});
+render();
+</script></body></html>
